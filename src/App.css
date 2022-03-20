@@ -25,3 +25,15 @@
   padding: 0px;
   margin: 0px;
 }
+
+.spreadsheet-viewer .react-grid-Grid {
+  min-height: 610px !important;
+}
+
+.photo-viewer-container {
+  height: fit-content !important;
+}
+
+.photo-viewer-container  * {
+  height: fit-content !important;
+}
