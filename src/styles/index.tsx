@@ -32,6 +32,7 @@ const UploadArea = styled.input`
 const TextArea = styled.div`
   z-index: 0;
   margin-left: 3px;
+  cursor: pointer;
 `;
 
 const FileListContainer = styled.div`
