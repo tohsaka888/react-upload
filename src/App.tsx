@@ -1,25 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useState } from "react";
+import { AiOutlineUpload, AiOutlineCheck } from "react-icons/ai";
+import {
+  UploadArea,
+  UploadContainer,
+  TextArea,
+  FileListContainer,
+  FileListItem,
+  FilenName,
+} from "./styles/index";
 
 function App() {
+  const [fileList, setFileList] = useState<File[]>([]);
+  const [file, setFile] = useState<File>();
+  const uploadFile = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files;
+      if (files) {
+        Array.from(files).forEach((file) =>
+          setFileList((fileList) => [...fileList, file])
+        );
+      }
+    },
+    []
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <UploadContainer>
+        <UploadArea type={"file"} multiple onChange={uploadFile} />
+        <AiOutlineUpload />
+        <TextArea>Upload</TextArea>
+      </UploadContainer>
+      <FileListContainer>
+        {fileList.map((file, index) => (
+          <FileListItem key={index}>
+            <AiOutlineCheck style={{ color: "#52c41a" }} />
+            <FilenName
+              onClick={() => {
+                setFile(file);
+              }}
+            >
+              {file.name}
+            </FilenName>
+          </FileListItem>
+        ))}
+      </FileListContainer>
+    </>
   );
 }
 
