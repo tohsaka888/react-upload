@@ -10,9 +10,19 @@ import {
   FilenName,
 } from "./styles/index";
 import { FilePreviewer } from "./type";
+import "./App.css";
+
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/modal";
 
 type ActionType =
-  | { type: "show"; payload: File }
+  | { type: "show"; payload: null }
   | { type: "add"; payload: { file: File; fileType: string } };
 
 const reducer = (state: FilePreviewer, action: ActionType) => {
@@ -65,7 +75,7 @@ function App() {
                 const fileType = file.name.split(".")[1];
                 console.log(fileType);
                 if (filePreviewer.file?.name === file.name) {
-                  dispatch({ type: "show", payload: file });
+                  dispatch({ type: "show", payload: null });
                 } else {
                   dispatch({ type: "add", payload: { file, fileType } });
                 }
@@ -76,12 +86,46 @@ function App() {
           </FileListItem>
         ))}
       </FileListContainer>
-      {filePreviewer.isShow && filePreviewer.file && (
+      <Modal
+        isOpen={filePreviewer.isShow}
+        onClose={() => dispatch({ type: "show", payload: null })}
+      >
+        <ModalOverlay />
+        <ModalContent
+          minW={"600px"}
+          minH={"700px"}
+          maxH={"700px"}
+          overflowY={"scroll"}
+        >
+          <ModalHeader>
+            预览 {filePreviewer.file?.name}
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            w={"100%"}
+            margin={0}
+            padding={0}
+          >
+            {filePreviewer.isShow && filePreviewer.file && (
+              <FileViewer
+                key={window.URL.createObjectURL(filePreviewer.file)}
+                fileType={filePreviewer.fileType}
+                filePath={window.URL.createObjectURL(filePreviewer.file)}
+              />
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      {/* {filePreviewer.isShow && filePreviewer.file && (
         <FileViewer
+          key={window.URL.createObjectURL(filePreviewer.file)}
           fileType={filePreviewer.fileType}
           filePath={window.URL.createObjectURL(filePreviewer.file)}
         />
-      )}
+      )} */}
     </>
   );
 }
