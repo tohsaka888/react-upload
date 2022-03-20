@@ -46,7 +46,7 @@ const FilenName = styled.div`
   margin-left: 8px;
   cursor: pointer;
   :hover {
-    border-bottom: 1px solid #1890ff;
+    /* border-bottom: 1px solid #1890ff; */
     color: #1890ff;
   }
 `;
